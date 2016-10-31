@@ -7,3 +7,21 @@
 //
 
 import Foundation
+import UIKit
+
+
+struct Question {
+    var question: String
+    var answers: [String]
+    var rightAnswer: Int
+    
+    init(question: String, answers: [String], answer: Int) {
+        self.question = question
+        self.answers = answers
+        self.rightAnswer = answer
+    }
+}
+
+
+
+

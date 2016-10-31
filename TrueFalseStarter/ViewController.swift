@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     let questionsPerRound = 4
     var questionsAsked = 0
     var correctQuestions = 0
-    var indexOfSelectedQuestion: Int = 0
+    var indexOfSelectedQuestion: Int = 0    
     
     var gameSound: SystemSoundID = 0
     
@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         ["Question": "Camels are cannibalistic", "Answer": "False"],
         ["Question": "All ducks are birds", "Answer": "True"]
     ]
+
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var trueButton: UIButton!
