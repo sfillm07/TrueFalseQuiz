@@ -15,62 +15,81 @@ class ViewController: UIViewController {
     let questionsPerRound = 4
     var questionsAsked = 0
     var correctQuestions = 0
-    var indexOfSelectedQuestion: Int = 0    
+    var indexOfSelectedQuestion: Int = 0
+    var currentQuestion: Question = trivia[0]
+    var answerSelections: [String] = []
+    var currentAnswer = 0
+    var usedQuestions: [Int] = []
     
     var gameSound: SystemSoundID = 0
     
-    let trivia: [[String : String]] = [
-        ["Question": "Only female koalas can whistle", "Answer": "False"],
-        ["Question": "Blue whales are technically whales", "Answer": "True"],
-        ["Question": "Camels are cannibalistic", "Answer": "False"],
-        ["Question": "All ducks are birds", "Answer": "True"]
-    ]
-
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet var answerButtons: [UIButton]!
     @IBOutlet weak var playAgainButton: UIButton!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadGameStartSound()
+        // loadGameStartSound()
         // Start game
-        playGameStartSound()
+        // playGameStartSound()
         displayQuestion()
+        print(correctQuestions)
     }
 
-    override func didReceiveMemoryWarning() {
+        override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func randomQuestionPicker() -> Int {
+        let randomQuestionPick = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
+        
+        return randomQuestionPick
     }
     
     func displayQuestion() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        let questionDictionary = trivia[indexOfSelectedQuestion]
-        questionField.text = questionDictionary["Question"]
-        playAgainButton.isHidden = true
+        
+        indexOfSelectedQuestion = randomQuestionPicker()
+        currentQuestion = trivia[indexOfSelectedQuestion]
+        questionField.text = currentQuestion.question
+        currentAnswer = currentQuestion.rightAnswer
+        
+        answerSelections = currentQuestion.answers
+        
+        for i in 0..<answerSelections.count {
+            answerButtons[i].setTitle(answerSelections[i], for: UIControlState.normal)
+        }
     }
     
     func displayScore() {
         // Hide the answer buttons
-        trueButton.isHidden = true
-        falseButton.isHidden = true
         
         // Display play again button
         playAgainButton.isHidden = false
         
-        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
-        
     }
     
+    
+    @IBAction func checkAnswer(_ sender: UIButton) {
+        let tag = sender.tag
+    
+            if tag == currentAnswer {
+            correctQuestions += 1
+                
+            } else {
+                print("That is not correct")
+            }
+        }
+    }
+    
+/*
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
         
         let selectedQuestionDict = trivia[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["Answer"]
+        let correctAnswer = selectedQuestionDict.rightAnswer
         
         if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
             correctQuestions += 1
@@ -81,25 +100,13 @@ class ViewController: UIViewController {
         
         loadNextRoundWithDelay(seconds: 2)
     }
-    
+
     func nextRound() {
-        if questionsAsked == questionsPerRound {
-            // Game is over
-            displayScore()
-        } else {
-            // Continue game
-            displayQuestion()
-        }
+
     }
     
     @IBAction func playAgain() {
-        // Show the answer buttons
-        trueButton.isHidden = false
-        falseButton.isHidden = false
-        
-        questionsAsked = 0
-        correctQuestions = 0
-        nextRound()
+
     }
     
 
@@ -128,4 +135,4 @@ class ViewController: UIViewController {
         AudioServicesPlaySystemSound(gameSound)
     }
 }
-
+*/
