@@ -16,12 +16,14 @@ class ViewController: UIViewController {
     var questionsAsked = 0
     var correctQuestions = 0
     var indexOfSelectedQuestion: Int = 0
-    var currentQuestion: Question = trivia[0]
     var answerSelections: [String] = []
     var currentAnswer = 0
     var usedQuestions: [Int] = []
+    var pickedQuestion: Question = trivia[0]
     
     var gameSound: SystemSoundID = 0
+    var rightSound: SystemSoundID = 0
+    var wrongSound: SystemSoundID = 0
     
     
     @IBOutlet weak var questionField: UILabel!
@@ -31,7 +33,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // loadGameStartSound()
+        loadGameStartSound()
+        loadRightAnswerSound()
+        loadWrongAnswerSound()
         // Start game
         // playGameStartSound()
         displayQuestion()
@@ -42,24 +46,40 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func randomQuestionPicker() -> Int {
+    func randomQuestionNumber() -> Int {
         let randomQuestionPick = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
         
         return randomQuestionPick
     }
     
+    func questionPicker() {
+        
+        indexOfSelectedQuestion = randomQuestionNumber()
+        pickedQuestion = trivia[indexOfSelectedQuestion]
+
+    }
+    
     func displayQuestion() {
+
+        questionField.text = pickedQuestion.question
+        currentAnswer = pickedQuestion.rightAnswer
         
-        indexOfSelectedQuestion = randomQuestionPicker()
-        currentQuestion = trivia[indexOfSelectedQuestion]
-        questionField.text = currentQuestion.question
-        currentAnswer = currentQuestion.rightAnswer
+        usedQuestions.append(indexOfSelectedQuestion)
         
-        answerSelections = currentQuestion.answers
+        answerSelections = pickedQuestion.answers
+        
+        for number in usedQuestions {
+            if number == indexOfSelectedQuestion {
+                
+            }
+        }
+        
         
         for i in 0..<answerSelections.count {
             answerButtons[i].setTitle(answerSelections[i], for: UIControlState.normal)
         }
+        
+        
     }
     
     func displayScore() {
@@ -77,11 +97,17 @@ class ViewController: UIViewController {
             if tag == currentAnswer {
             correctQuestions += 1
                 
+                playRightAnswerSound()
+                questionPicker()
+                displayQuestion()
+                print(usedQuestions)
+                
             } else {
-                print("That is not correct")
+                playWrongAnswerSound()
+                print("Wrong")
             }
         }
-    }
+    
     
 /*
     @IBAction func checkAnswer(_ sender: UIButton) {
@@ -124,15 +150,35 @@ class ViewController: UIViewController {
             self.nextRound()
         }
     }
-    
+*/
     func loadGameStartSound() {
         let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
         let soundURL = URL(fileURLWithPath: pathToSoundFile!)
         AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
     }
     
+    func loadRightAnswerSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "Right", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &rightSound)
+    }
+    
+    func loadWrongAnswerSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "Wrong", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &wrongSound)
+    }
+    
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
+    
+    func playRightAnswerSound() {
+        AudioServicesPlaySystemSound(rightSound)
+    }
+    
+    func playWrongAnswerSound() {
+        AudioServicesPlaySystemSound(wrongSound)
+    }
 }
-*/
+
