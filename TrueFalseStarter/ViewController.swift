@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     var usedQuestions = Set<Int>()
     var pickedQuestion: Question = trivia[0]
     var randomQuestionPick = 0
+    var timer = Timer()
+    var seconds = 20
     
     var gameSound: SystemSoundID = 0
     var rightSound: SystemSoundID = 0
@@ -43,24 +45,22 @@ class ViewController: UIViewController {
         displayQuestion()
         print(correctQuestions)
     }
-
+    
         override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func randomQuestion() -> Question {
+    
+    func randomQuestion() {
         
-        randomQuestionPick = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        
-        if usedQuestions.contains(randomQuestionPick) {
+        for i in 0..<usedQuestions.count {
+            repeat {
                 randomQuestionPick = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        } else {
+            } while i == randomQuestionPick
             pickedQuestion = trivia[randomQuestionPick]
         }
-        
-        return pickedQuestion
     }
-    
+
     func displayQuestion() {
 
         questionField.text = pickedQuestion.question
@@ -102,6 +102,13 @@ class ViewController: UIViewController {
             }
         }
     
+    func startGame() {
+        timer = Timer(timeInterval: 1, target: self, selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
+    }
+
+    func updateTimer() {
+        seconds -= 1
+    }
     
 
 
