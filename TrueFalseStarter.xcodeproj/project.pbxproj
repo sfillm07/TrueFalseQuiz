@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4577DBC71DCE93100002E678 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4577DBC61DCE93100002E678 /* WelcomeViewController.swift */; };
+		4577DBC91DCF8C5F0002E678 /* ArithmeticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */; };
 		45B15D2C1DC7B36B00649D91 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */; };
 		45B15D2E1DC7B9B200649D91 /* Requirements in Resources */ = {isa = PBXBuildFile; fileRef = 45B15D2D1DC7B9B200649D91 /* Requirements */; };
 		45B15D311DC8005700649D91 /* Right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 45B15D2F1DC8005700649D91 /* Right.wav */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4577DBC61DCE93100002E678 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArithmeticViewController.swift; sourceTree = "<group>"; };
 		45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		45B15D2D1DC7B9B200649D91 /* Requirements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Requirements; sourceTree = "<group>"; };
 		45B15D2F1DC8005700649D91 /* Right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Right.wav; sourceTree = "<group>"; };
@@ -66,8 +70,10 @@
 			children = (
 				97093D3B1C913506001275BC /* AppDelegate.swift */,
 				97093D3D1C913506001275BC /* ViewController.swift */,
+				4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */,
 				45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */,
 				97093D3F1C913506001275BC /* Main.storyboard */,
+				4577DBC61DCE93100002E678 /* WelcomeViewController.swift */,
 				45B15D2D1DC7B9B200649D91 /* Requirements */,
 				97093D421C913506001275BC /* Assets.xcassets */,
 				97093D441C913506001275BC /* LaunchScreen.storyboard */,
@@ -156,6 +162,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B15D2C1DC7B36B00649D91 /* QuestionModel.swift in Sources */,
+				4577DBC71DCE93100002E678 /* WelcomeViewController.swift in Sources */,
+				4577DBC91DCF8C5F0002E678 /* ArithmeticViewController.swift in Sources */,
 				97093D3E1C913506001275BC /* ViewController.swift in Sources */,
 				97093D3C1C913506001275BC /* AppDelegate.swift in Sources */,
 			);

@@ -116,6 +116,10 @@ class ViewController: UIViewController {
 
     }
     
+    @IBAction func exitGame() {
+        self.dismiss(animated: true, completion: nil)
+    }
+
 
     
     // MARK: Helper Methods
