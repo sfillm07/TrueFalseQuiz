@@ -18,13 +18,13 @@ class ViewController: UIViewController {
     var indexOfSelectedQuestion: Int = 0
     var answerSelections: [String] = []
     var currentAnswer = 0
-    var usedQuestions = Set<Int>()
     var pickedQuestion: Question = trivia[0]
     var randomQuestionPick = 0
     var timer = Timer()
     var seconds = 20
+    var shuffledQuestions = [Question]()
+    var questionIndex = 0
     
-    var gameSound: SystemSoundID = 0
     var rightSound: SystemSoundID = 0
     var wrongSound: SystemSoundID = 0
     
@@ -32,37 +32,34 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet var answerButtons: [UIButton]!
     @IBOutlet weak var playAgainButton: UIButton!
+    @IBOutlet weak var timerLabel: UILabel!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadGameStartSound()
         loadRightAnswerSound()
         loadWrongAnswerSound()
-        // Start game
-        // playGameStartSound()
-        randomQuestion()
+        randomQuestionArray()
         displayQuestion()
-        print(correctQuestions)
+        playAgainButton.isHidden = true
+        timerLabel.isHidden = true
+        startGame()
     }
-    
+
         override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-    func randomQuestion() {
-        
-        for i in 0..<usedQuestions.count {
-            repeat {
-                randomQuestionPick = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-            } while i == randomQuestionPick
-            pickedQuestion = trivia[randomQuestionPick]
-        }
+    func randomQuestionArray() {
+        shuffledQuestions = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: trivia) as! [Question]
     }
 
+    @IBAction func startTimer() {
+    }
+    
     func displayQuestion() {
-
+        
+        pickedQuestion = shuffledQuestions[questionIndex]
         questionField.text = pickedQuestion.question
         currentAnswer = pickedQuestion.rightAnswer
         
@@ -71,8 +68,6 @@ class ViewController: UIViewController {
         for i in 0..<answerSelections.count {
             answerButtons[i].setTitle(answerSelections[i], for: UIControlState.normal)
         }
-        
-        
     }
     
     func displayScore() {
@@ -83,34 +78,43 @@ class ViewController: UIViewController {
         
     }
     
-    
     @IBAction func checkAnswer(_ sender: UIButton) {
         let tag = sender.tag
     
             if tag == currentAnswer {
-            correctQuestions += 1
-                
-                usedQuestions.insert(randomQuestionPick)
+                questionIndex += 1
+                correctQuestions += 1
                 playRightAnswerSound()
-                randomQuestion()
                 displayQuestion()
-                print(usedQuestions)
                 
             } else {
+                questionIndex += 1
                 playWrongAnswerSound()
-                print("Wrong")
+                answerButtons[currentAnswer].backgroundColor = UIColor.red
+                loadNextQuestionWithDelay(seconds: 1)
+
             }
         }
     
     func startGame() {
-        timer = Timer(timeInterval: 1, target: self, selector: (#selector(ViewController.updateTimer)), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.updateTimer), userInfo: nil, repeats: true)
     }
 
     func updateTimer() {
+        
         seconds -= 1
+        timerLabel.text = String(seconds)
+        
+        if (seconds <= 10) {
+            view.backgroundColor = UIColor(red: 84/255.0, green: 102/255.0, blue: 131/255.0, alpha: 1.0)
+            timerLabel.isHidden = false
+        }
+        
+        if seconds == 0 {
+            timer.invalidate()
+        }
     }
     
-
 
     @IBAction func playAgain() {
 
@@ -120,11 +124,16 @@ class ViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+    func resetButtons() {
+        for i in 0..<answerSelections.count {
+            answerButtons[i].backgroundColor = UIColor(red: 12/255.0, green: 121/255.0, blue: 150/255.0, alpha: 1.0)
+        }
+    }
 
     
     // MARK: Helper Methods
     
-    func loadNextRoundWithDelay(seconds: Int) {
+    func loadNextQuestionWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
         let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
         // Calculates a time value to execute the method given current time and delay
@@ -132,15 +141,11 @@ class ViewController: UIViewController {
         
         // Executes the nextRound method at the dispatch time on the main queue
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-           // self.nextRound()
+            self.resetButtons()
+            self.displayQuestion()
         }
     }
 
-    func loadGameStartSound() {
-        let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
-    }
     
     func loadRightAnswerSound() {
         let pathToSoundFile = Bundle.main.path(forResource: "Right", ofType: "wav")
@@ -152,10 +157,6 @@ class ViewController: UIViewController {
         let pathToSoundFile = Bundle.main.path(forResource: "Wrong", ofType: "wav")
         let soundURL = URL(fileURLWithPath: pathToSoundFile!)
         AudioServicesCreateSystemSoundID(soundURL as CFURL, &wrongSound)
-    }
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
     }
     
     func playRightAnswerSound() {
