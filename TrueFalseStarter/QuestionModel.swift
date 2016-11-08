@@ -29,9 +29,9 @@ var trivia: [Question] = [
     Question(question: "Which nation produces the most oil?", answers: ["Iran", "Iraq", "Brazil", "Canada"], answer: 3),
     Question(question: "Which country has most recently won consecutive World Cups in soccer?", answers: ["Italy", "Brazil", "Argentina", "Spain"], answer: 1),
     Question(question: "Which of the following rivers is the longest?", answers: ["Yangtze", "Mississippi", "Congo", "Mekong"], answer: 1),
-    Question(question: "Which city is the oldest", answers: ["Mexico City", "Cape Town", "San Juan", "Sydney"], answer: 0),
+    Question(question: "Which city is the oldest?", answers: ["Mexico City", "Cape Town", "San Juan", "Sydney"], answer: 0),
     Question(question: "Which country was the first to allow women to vote in national elections?", answers: ["Poland", "United States", "Sweden", "Senegal"], answer: 0),
-    Question(question: "Which of these countries won the most medals in the 2012 Summer Games", answers: ["France", "Germany", "Japan", "Great Britian"], answer: 3)
+    Question(question: "Which of these countries won the most medals in the 2012 Summer Games?", answers: ["France", "Germany", "Japan", "Great Britian"], answer: 3)
 ]
 
 

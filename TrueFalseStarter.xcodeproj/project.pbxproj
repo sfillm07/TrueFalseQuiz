@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4577DBC71DCE93100002E678 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4577DBC61DCE93100002E678 /* WelcomeViewController.swift */; };
-		4577DBC91DCF8C5F0002E678 /* ArithmeticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */; };
+		4577DBCD1DD116500002E678 /* Jeopardy-theme-song.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4577DBCC1DD116500002E678 /* Jeopardy-theme-song.wav */; };
 		45B15D2C1DC7B36B00649D91 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */; };
 		45B15D2E1DC7B9B200649D91 /* Requirements in Resources */ = {isa = PBXBuildFile; fileRef = 45B15D2D1DC7B9B200649D91 /* Requirements */; };
 		45B15D311DC8005700649D91 /* Right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 45B15D2F1DC8005700649D91 /* Right.wav */; };
@@ -23,7 +23,7 @@
 
 /* Begin PBXFileReference section */
 		4577DBC61DCE93100002E678 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArithmeticViewController.swift; sourceTree = "<group>"; };
+		4577DBCC1DD116500002E678 /* Jeopardy-theme-song.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Jeopardy-theme-song.wav"; sourceTree = "<group>"; };
 		45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		45B15D2D1DC7B9B200649D91 /* Requirements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Requirements; sourceTree = "<group>"; };
 		45B15D2F1DC8005700649D91 /* Right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Right.wav; sourceTree = "<group>"; };
@@ -70,14 +70,14 @@
 			children = (
 				97093D3B1C913506001275BC /* AppDelegate.swift */,
 				97093D3D1C913506001275BC /* ViewController.swift */,
-				4577DBC81DCF8C5F0002E678 /* ArithmeticViewController.swift */,
+				4577DBC61DCE93100002E678 /* WelcomeViewController.swift */,
 				45B15D2B1DC7B36B00649D91 /* QuestionModel.swift */,
 				97093D3F1C913506001275BC /* Main.storyboard */,
-				4577DBC61DCE93100002E678 /* WelcomeViewController.swift */,
 				45B15D2D1DC7B9B200649D91 /* Requirements */,
 				97093D421C913506001275BC /* Assets.xcassets */,
 				97093D441C913506001275BC /* LaunchScreen.storyboard */,
 				97093D471C913506001275BC /* Info.plist */,
+				4577DBCC1DD116500002E678 /* Jeopardy-theme-song.wav */,
 				97093D521C932116001275BC /* GameSound.wav */,
 				45B15D2F1DC8005700649D91 /* Right.wav */,
 				45B15D301DC8005700649D91 /* Wrong.wav */,
@@ -149,6 +149,7 @@
 				97093D431C913506001275BC /* Assets.xcassets in Resources */,
 				45B15D2E1DC7B9B200649D91 /* Requirements in Resources */,
 				97093D411C913506001275BC /* Main.storyboard in Resources */,
+				4577DBCD1DD116500002E678 /* Jeopardy-theme-song.wav in Resources */,
 				45B15D311DC8005700649D91 /* Right.wav in Resources */,
 				45B15D321DC8005700649D91 /* Wrong.wav in Resources */,
 			);
@@ -163,7 +164,6 @@
 			files = (
 				45B15D2C1DC7B36B00649D91 /* QuestionModel.swift in Sources */,
 				4577DBC71DCE93100002E678 /* WelcomeViewController.swift in Sources */,
-				4577DBC91DCF8C5F0002E678 /* ArithmeticViewController.swift in Sources */,
 				97093D3E1C913506001275BC /* ViewController.swift in Sources */,
 				97093D3C1C913506001275BC /* AppDelegate.swift in Sources */,
 			);

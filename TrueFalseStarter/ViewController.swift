@@ -21,19 +21,20 @@ class ViewController: UIViewController {
     var pickedQuestion: Question = trivia[0]
     var randomQuestionPick = 0
     var timer = Timer()
-    var seconds = 20
+    var seconds = 30
     var shuffledQuestions = [Question]()
     var questionIndex = 0
     
     var rightSound: SystemSoundID = 0
     var wrongSound: SystemSoundID = 0
-    
-    
+    var jeopardySound: SystemSoundID = 0
+
+    @IBOutlet weak var correctLabel: UILabel!
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet var answerButtons: [UIButton]!
     @IBOutlet weak var playAgainButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
-    
+    @IBOutlet weak var exitGameButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,20 +44,19 @@ class ViewController: UIViewController {
         displayQuestion()
         playAgainButton.isHidden = true
         timerLabel.isHidden = true
+        correctLabel.isHidden = true
+        exitGameButton.isHidden = true
         startGame()
     }
 
         override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+    // This function shuffles the array each time the game is played to ensure randomness
     func randomQuestionArray() {
         shuffledQuestions = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: trivia) as! [Question]
     }
-
-    @IBAction func startTimer() {
-    }
-    
+    // This function takes the question and extracts the info and displays it for the user
     func displayQuestion() {
         
         pickedQuestion = shuffledQuestions[questionIndex]
@@ -65,37 +65,30 @@ class ViewController: UIViewController {
         
         answerSelections = pickedQuestion.answers
         
+        // this loop assigns the title for each button based on the answer choices
         for i in 0..<answerSelections.count {
             answerButtons[i].setTitle(answerSelections[i], for: UIControlState.normal)
         }
     }
-    
-    func displayScore() {
-        // Hide the answer buttons
-        
-        // Display play again button
-        playAgainButton.isHidden = false
-        
-    }
-    
+
+    // This function checks to see if the button pressed is the correct answer
     @IBAction func checkAnswer(_ sender: UIButton) {
         let tag = sender.tag
-    
+    // If the answer is correct, the index is changed and the next question is displayed.  The correct answer count is updated
             if tag == currentAnswer {
                 questionIndex += 1
                 correctQuestions += 1
                 playRightAnswerSound()
                 displayQuestion()
-                
+    // if the answer is incorrect, the correct answer is highlighted during a brief delay
             } else {
                 questionIndex += 1
                 playWrongAnswerSound()
                 answerButtons[currentAnswer].backgroundColor = UIColor.red
                 loadNextQuestionWithDelay(seconds: 1)
-
             }
         }
-    
+    // This is the timer function used to keep track of the game
     func startGame() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.updateTimer), userInfo: nil, repeats: true)
     }
@@ -104,26 +97,40 @@ class ViewController: UIViewController {
         
         seconds -= 1
         timerLabel.text = String(seconds)
-        
-        if (seconds <= 10) {
-            view.backgroundColor = UIColor(red: 84/255.0, green: 102/255.0, blue: 131/255.0, alpha: 1.0)
+        // This is the logic for the "lightning round"
+        if (seconds <= 15) {
             timerLabel.isHidden = false
+            
+            changeButtonTint(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         }
         
         if seconds == 0 {
+            correctLabel.text = "Correct: \(correctQuestions)"
+            correctLabel.isHidden = false
+            timerLabel.isHidden = true
+            exitGameButton.isHidden = false
+            playAgainButton.isHidden = false
             timer.invalidate()
         }
     }
-    
-
+    // This function resets the game if the user presses the "Play Again" button
     @IBAction func playAgain() {
-
+        randomQuestionArray()
+        questionIndex = 0
+        correctQuestions = 0
+        seconds = 30
+        displayQuestion()
+        playAgainButton.isHidden = true
+        correctLabel.isHidden = true
+        exitGameButton.isHidden = true
+        changeButtonTint(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        startGame()
     }
-    
+    // This function dismisses the view controller and takes the user back to the opening view
     @IBAction func exitGame() {
         self.dismiss(animated: true, completion: nil)
     }
-
+    // This function is used to change the background color of the correct answer if an incorrect answer is chosen
     func resetButtons() {
         for i in 0..<answerSelections.count {
             answerButtons[i].backgroundColor = UIColor(red: 12/255.0, green: 121/255.0, blue: 150/255.0, alpha: 1.0)
@@ -145,8 +152,16 @@ class ViewController: UIViewController {
             self.displayQuestion()
         }
     }
-
     
+    
+    // This method allows me to change the tint color of the buttons in "lightning mode" and then back to white again
+    func changeButtonTint(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        for i in 0..<answerSelections.count {
+            answerButtons[i].tintColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
+    
+    // These functions are used to load the sounds
     func loadRightAnswerSound() {
         let pathToSoundFile = Bundle.main.path(forResource: "Right", ofType: "wav")
         let soundURL = URL(fileURLWithPath: pathToSoundFile!)
@@ -159,6 +174,7 @@ class ViewController: UIViewController {
         AudioServicesCreateSystemSoundID(soundURL as CFURL, &wrongSound)
     }
     
+    // These functions are used to play the sounds
     func playRightAnswerSound() {
         AudioServicesPlaySystemSound(rightSound)
     }
